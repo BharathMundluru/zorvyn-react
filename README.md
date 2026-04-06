@@ -43,6 +43,7 @@ src/
 ├── pages/
 │   ├── Auth.js
 │   ├── Dashboard.js
+│   ├── Settings.js
 │   ├── Insights.js
 │   ├── Charts.js
 │   └── Transactions.js
