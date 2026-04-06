@@ -2,15 +2,17 @@ import React, { useState } from "react";
 import { loginWithGoogle } from "../api/loginapi";
 
 function Auth({ setUser }) {
+
   const [isSignup, setIsSignup] = useState(false);
 
   const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [error, setError] = useState("");
 
   const handleSubmit = () => {
-    if (!username || !password) {
+    if (!username || !password || (isSignup && !email)) {
       setError("Please fill all fields");
       return;
     }
@@ -24,14 +26,18 @@ function Auth({ setUser }) {
 
     if (!isSignup) {
       if (username === "admin" && password === "admin123") {
-        setUser({ name: "Admin", role: "admin" });
+        setUser({ name: "Admin", role: "admin", email: "admin@gmail.com" });
       } else if (username === "viewer" && password === "viewer123") {
-        setUser({ name: "Viewer", role: "user" });
+        setUser({ name: "Viewer", role: "user", email: "viewer@gmail.com" });
       } else {
         setError("Invalid credentials");
       }
     } else {
-      setUser({ name: username, role: "user" });
+      setUser({
+        name: username,
+        role: "user",
+        email: email
+      });
     }
   };
 
@@ -64,6 +70,18 @@ function Auth({ setUser }) {
             onChange={(e) => setUsername(e.target.value)}
           />
         </div>
+
+        {isSignup && (
+          <div className="input-box">
+            <span>📧</span>
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+        )}
 
         <div className="input-box">
           <span>🔒</span>

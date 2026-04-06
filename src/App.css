@@ -159,13 +159,199 @@ button:hover {
 
 .top-bar {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  position: relative;
+}
+
+.role-switch {
+  display: flex;
   gap: 10px;
-  position: sticky;
-  top: 0;
-  background: inherit;
-  padding: 10px 0;
-  z-index: 100;
+}
+
+.role-switch button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  background: #e2e8f0;
+  color: #0f172a;
+  cursor: pointer;
+}
+
+.role-switch .active {
+  background: #2563eb;
+  color: white;
+}
+.right-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.theme-btn {
+  background: #3b82f6;
+  border: none;
+  padding: 8px 10px;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+}
+
+.profile-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #64748b;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: 60px;
+  right: 15px;
+  width: 240px;
+  border-radius: 14px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  animation: fadeIn 0.2s ease;
+}
+
+body.dark .profile-dropdown {
+  background: rgba(30, 41, 59, 0.9);
+  color: white;
+}
+
+.dropdown-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dropdown-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #6366f1;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.profile-name {
+  font-weight: 600;
+  margin: 0;
+}
+
+.profile-email {
+  font-size: 12px;
+  color: gray;
+}
+
+.dropdown-divider {
+  height: 1px;
+  background: #e5e7eb;
+  margin: 10px 0;
+}
+
+body.dark .dropdown-divider {
+  background: #475569;
+}
+
+.dropdown-btn {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: #3b82f6;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.dropdown-btn:hover {
+  background: #2563eb;
+  transform: translateY(-1px);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.settings-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.settings-card {
+  width: 450px;
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+body.dark .settings-card {
+  background: #1e293b;
+  color: white;
+}
+
+.setting-item {
+  margin-bottom: 15px;
+}
+
+.setting-item label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.password-box {
+  display: flex;
+  gap: 10px;
+}
+
+.password-box input {
+  flex: 1;
+  padding: 8px;
+}
+
+.setting-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.home-btn {
+  background: #64748b;
+  color: white;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+}
+
+.logout-btn {
+  background: #ef4444;
+  color: white;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
 }
 
 .dashboard {
