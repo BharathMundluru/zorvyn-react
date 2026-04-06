@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
+import { AppContext } from "../context/Appcontext";
 import {
   PieChart, Pie, Cell, Tooltip, Legend, Label,
   BarChart, Bar, XAxis, YAxis, CartesianGrid,
   ResponsiveContainer, LineChart, Line
 } from "recharts";
 
-function Charts({ transactions }) {
+function Charts() {
+
+  const { transactions } = useContext(AppContext);
 
   const lineData = Object.values(
     transactions.reduce((acc, t) => {
@@ -116,7 +119,7 @@ function Charts({ transactions }) {
                 dataKey="value"
                 innerRadius={80}
                 outerRadius={110}
-                >
+              >
                 {pieData.map((entry, index) => (
                   <Cell key={index} fill={COLORS[index]} />
                 ))}
@@ -133,7 +136,7 @@ function Charts({ transactions }) {
                           fontSize="18"
                           fontWeight="bold"
                         >
-                        ₹{profit}
+                          ₹{profit}
                         </tspan>
                         <tspan x={cx} dy="20" fill="#ccc" fontSize="12">
                           {profit >= 0 ? "Profit" : "Loss"}
@@ -154,8 +157,12 @@ function Charts({ transactions }) {
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={expenseData}>
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" tickFormatter={(value) =>
-                value.length > 6 ? value.slice(0, 6) + "..." : value}/>
+              <XAxis
+                dataKey="name"
+                tickFormatter={(value) =>
+                  value.length > 6 ? value.slice(0, 6) + "..." : value
+                }
+              />
               <YAxis />
               <Tooltip />
               <Bar dataKey="value" fill="#0ea5e9" />
@@ -168,8 +175,12 @@ function Charts({ transactions }) {
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={revenueData}>
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" tickFormatter={(value) =>
-                value.length > 6 ? value.slice(0, 8) + "..." : value}/>
+              <XAxis
+                dataKey="name"
+                tickFormatter={(value) =>
+                  value.length > 6 ? value.slice(0, 6) + "..." : value
+                }
+              />
               <YAxis />
               <Tooltip />
               <Bar dataKey="value" fill="#6366f1" />

@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
+import { AppContext } from "../context/Appcontext";
 
-function Dashboard({ transactions }) {
+function Dashboard() {
+  const { transactions } = useContext(AppContext);
+
   const income = transactions
     .filter(t => t.type === "income")
     .reduce((a, b) => a + b.amount, 0);

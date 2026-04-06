@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
+import { AppContext } from "../context/Appcontext";
 
-function Insights({ transactions }) {
+function Insights() {
+
+  const { transactions } = useContext(AppContext);
 
   const expenses = transactions.filter(t => t.type === "expense");
 
@@ -28,7 +31,7 @@ function Insights({ transactions }) {
     const last = monthlyMap[months[months.length - 1]];
     const prev = monthlyMap[months[months.length - 2]];
 
-    percentChange = ((last - prev) / prev) * 100;
+    percentChange = prev !== 0 ? ((last - prev) / prev) * 100 : 0;
   }
 
   return (
@@ -52,16 +55,19 @@ function Insights({ transactions }) {
           <p>Highest Spending Month</p>
           <h2>
             {highestMonth
-              ? `${highestMonth[0]} (₹${highestMonth[1]})`
+              ? `${new Date(highestMonth[0] + "-01").toLocaleString("default", {
+                  month: "long",
+                  year: "numeric"
+                })} (₹${highestMonth[1]})`
               : "N/A"}
           </h2>
         </div>
 
         <div className="insight-box">
-            <p>Monthly Change</p>
-            <h2 style={{ color: percentChange >= 0 ? "#dc2626" : "#16a34a" }}>
-                {percentChange >= 0 ? "▲" : "▼"} {percentChange.toFixed(1)}%
-            </h2>
+          <p>Monthly Change</p>
+          <h2 style={{ color: percentChange >= 0 ? "#dc2626" : "#16a34a" }}>
+            {percentChange >= 0 ? "▲" : "▼"} {percentChange.toFixed(1)}%
+          </h2>
         </div>
 
       </div>

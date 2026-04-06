@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import {
-  addTransactionApi,
-  deleteTransactionApi,
-} from "../api/api";
+import React, { useState, useContext } from "react";
+import { AppContext } from "../context/Appcontext";
 
-function Transactions({ transactions, setTransactions, role }) {
+function Transactions() {
+
+  const { transactions, setTransactions, user } = useContext(AppContext);
+
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("");
   const [type, setType] = useState("expense");
@@ -14,34 +14,25 @@ function Transactions({ transactions, setTransactions, role }) {
 
   const [editingId, setEditingId] = useState(null);
 
-  const addTransaction = async () => {
-    if (!amount || !category) {
-      alert("Please fill all fields");
-      return;
-    }
+  const handleSubmit = () => {
+    if (!amount || !category) return;
 
     const newTx = {
+      id: editingId || Date.now(),
       date: new Date().toISOString().split("T")[0],
       amount: Number(amount),
       category,
-      type,
+      type
     };
 
     if (editingId) {
       const updated = transactions.map((t) =>
-        t.id === editingId ? { ...t, ...newTx, id: editingId } : t
+        t.id === editingId ? newTx : t
       );
-
       setTransactions(updated);
       setEditingId(null);
     } else {
-      try {
-        const saved = await addTransactionApi(newTx);
-        setTransactions([...transactions, saved]);
-      } catch {
-        const localTx = { ...newTx, id: Date.now() };
-        setTransactions([...transactions, localTx]);
-      }
+      setTransactions([...transactions, newTx]);
     }
 
     setAmount("");
@@ -49,13 +40,8 @@ function Transactions({ transactions, setTransactions, role }) {
     setType("expense");
   };
 
-  const deleteTransaction = async (id) => {
-    try {
-      await deleteTransactionApi(id);
-      setTransactions(transactions.filter((t) => t.id !== id));
-    } catch {
-      setTransactions(transactions.filter((t) => t.id !== id));
-    }
+  const deleteTransaction = (id) => {
+    setTransactions(transactions.filter((t) => t.id !== id));
   };
 
   const handleEdit = (t) => {
@@ -105,7 +91,7 @@ function Transactions({ transactions, setTransactions, role }) {
         </select>
       </div>
 
-      {role === "admin" && (
+      {user?.role === "admin" && (
         <div className="form">
           <input
             type="number"
@@ -125,7 +111,7 @@ function Transactions({ transactions, setTransactions, role }) {
             <option value="income">Income</option>
           </select>
 
-          <button onClick={addTransaction}>
+          <button onClick={handleSubmit}>
             {editingId ? "Update" : "Add"}
           </button>
         </div>
@@ -138,7 +124,7 @@ function Transactions({ transactions, setTransactions, role }) {
             <th>Amount</th>
             <th>Category</th>
             <th>Type</th>
-            {role === "admin" && <th>Actions</th>}
+            {user?.role === "admin" && <th>Actions</th>}
           </tr>
         </thead>
 
@@ -151,7 +137,7 @@ function Transactions({ transactions, setTransactions, role }) {
                 <td>{t.category}</td>
                 <td>{t.type}</td>
 
-                {role === "admin" && (
+                {user?.role === "admin" && (
                   <td>
                     <button onClick={() => handleEdit(t)}>Edit</button>
                     <button onClick={() => deleteTransaction(t.id)}>
